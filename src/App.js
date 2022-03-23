@@ -4,29 +4,52 @@ import './App.css';
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: ''
+  ,
+tasks: [{task:"Enter Name ",id:1}],};
 
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange=(event) =>{
     this.setState({value: event.target.value});
   }
-
+  handleDelete=(id) =>{
+   let narr = this.state.tasks.filter((obj)=>{return obj.id != id;});
+   this.setState({tasks:[...narr]});
+  }
   handleSubmit = (event)=> {
-    this.setState({value: ''});
+    this.setState({
+      tasks: [
+        ...this.state.tasks,
+        { task: this.state.value, id: this.state.tasks.length+1 },
+      ],
+      value: '',
+    });
     event.preventDefault();
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form 
+      // onSubmit={this.handleSubmit}
+      >
         <label>
           Name:
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
-        <input type="submit" value="Submit" />
+        {/* <input type="submit" value="Submit" /> */}
+        <button type="button" onClick={this.handleSubmit}>Submit Now </button>
+        <ul >
+          {this.state.tasks.map((obj)=>(
+            <li key={obj.id}>
+              <p>{obj.id}</p>
+              <p>{obj.task}</p>
+               <button onClick={() =>this.handleDelete(obj.id)}>Delete</button>
+            </li>
+           
+          ))}
+          
+        </ul>
       </form>
     );
   }
