@@ -4,17 +4,15 @@ import './App.css';
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''
-  ,
-tasks: [{task:"Enter Name ",id:1}],};
-
+    this.state = { value: '', tasks: [] };
+// {task:"Enter Name ",id:1}
   }
 
   handleChange=(event) =>{
     this.setState({value: event.target.value});
   }
   handleDelete=(id) =>{
-   let narr = this.state.tasks.filter((obj)=>{return obj.id != id;});
+   let narr = this.state.tasks.filter((obj)=>{return obj.id !== id;});
    this.setState({tasks:[...narr]});
   }
   handleSubmit = (event)=> {
@@ -30,27 +28,49 @@ tasks: [{task:"Enter Name ",id:1}],};
 
   render() {
     return (
-      <form 
-      // onSubmit={this.handleSubmit}
-      >
-        <label>
-          Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        {/* <input type="submit" value="Submit" /> */}
-        <button type="button" onClick={this.handleSubmit}>Submit Now </button>
-        <ul >
-          {this.state.tasks.map((obj)=>(
-            <li key={obj.id}>
-              <p>{obj.id}</p>
-              <p>{obj.task}</p>
-               <button onClick={() =>this.handleDelete(obj.id)}>Delete</button>
-            </li>
-           
-          ))}
-          
-        </ul>
-      </form>
+      <>
+        <h1 style={{ textAlign: 'center' }}>TO DO App</h1>
+        <br></br>
+        <br></br>
+        <form
+        // onSubmit={this.handleSubmit}
+        >
+          <section className='DataEntry'>
+            <input
+              className='form-control inputfield'
+              type='text'
+              value={this.state.value}
+              onChange={this.handleChange}
+            />
+
+            {/* <input type="submit" value="Submit" /> */}
+            <button
+              type='button'
+              className='btn btn-success btn-lg addtask '
+              onClick={this.handleSubmit}
+            >
+              Add Task{' '}
+            </button>
+          </section>
+          <br></br>
+          <br></br>
+          <ul>
+            {this.state.tasks.map((obj, index) => (
+              <div key={obj.id} className='container card text-center'>
+                {/* <p className='number card-header'>{index + 1}</p> */}
+                <p className='task_entry card-text'>{obj.task}</p>
+                <button
+                  onClick={() => this.handleDelete(obj.id)}
+                  className='btn btn-secondary done'
+                >
+                  Done
+                </button>
+              </div>
+            ))}
+          </ul>
+        </form>
+       
+      </>
     );
   }
 }
